@@ -23,5 +23,6 @@ import django_demoapp.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', django_demoapp.views.home, name="home"),
-    path('courses', django_demoapp.views.courses, name="courses"),
+    path('courses', django_demoapp.views.course, name="courses"),
+    path('responsibles', django_demoapp.views.responsible, name="responsibles"),
 ]
