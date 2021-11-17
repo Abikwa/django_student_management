@@ -1,4 +1,5 @@
 {% extends 'django_demoapp/layout/default.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
 
     <main class="main users chart-page" id="skip-target">
@@ -19,12 +20,16 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      ...
+                      <form method="POST" class="text-start bg-secondary-50">
+                        {% csrf_token %}
+                        {{ form|crispy}}
+                        <button class="btn btn-primary btn-sm">Save responsible</button>
+                      </form>
                     </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save responsible</button>
-                    </div>
+                    <!-- <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary btn-sm">Save responsible</button>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -52,7 +57,7 @@
                               <i data-feather="more-horizontal" aria-hidden="true"></i>
                             </button>
                             <ul class="users-item-dropdown dropdown">
-                              <li><a href="##">Edit</a></li>
+                              <li><a href="/responsibles/{{ responsible.pk}}">detail</a></li>
                               <li><a href="##">Quick edit</a></li>
                               <li><a href="##">Trash</a></li>
                             </ul>
