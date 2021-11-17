@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include 'django_demoapp/partials/head.html' %}
+
+<body>
+  <div class="layer"></div>
+<!-- ! Body -->
+<a class="skip-link sr-only" href="#skip-target">Skip to content</a>
+<div class="page-flex">
+  <!-- ! Sidebar -->
+
+  {% include 'django_demoapp/partials/sidebar.html' %}
+
+  <div class="main-wrapper">
+    <!-- ! Main nav -->
+
+    {% include 'django_demoapp/partials/nav.html' %}
+
+    <!-- ! Main -->
+    {% block content %}
+    {% endblock %}
+    <!-- ! Footer -->
+
+  </div>
+</div>
+<!-- Chart library -->
+{% include 'django_demoapp/partials/script.html' %}
+</body>
+
+</html>
