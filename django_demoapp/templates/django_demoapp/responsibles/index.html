@@ -1,0 +1,76 @@
+{% extends 'django_demoapp/layout/default.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <main class="main users chart-page" id="skip-target">
+        <div class="container">
+            <h2 class="main-title">Responsibles</h2>
+            <div class="text-end">
+                <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add new responsible
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Responsible</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form method="POST" class="text-start bg-secondary-50">
+                        {% csrf_token %}
+                        {{ form|crispy}}
+                        <button class="btn btn-primary btn-sm">Save responsible</button>
+                      </form>
+                    </div>
+                    <!-- <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary btn-sm">Save responsible</button>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              {% if responsibles %}
+                {% load static %}
+                {% for responsible in responsibles %}
+                  <div class="col-md-3">
+                    <div class="card mb-4 shadow">
+                      <div class="card-body">
+                        <div class="categories-table-img">
+                          <picture>
+                            <source srcset="{% static 'app/img/categories/01.webp' %}" type="image/webp"><img src="{% static 'app/img/categories/01.jpg' %}" alt="category">
+                          </picture>
+                        </div>
+                        <span class="font-weight-bolder h5">{{ responsible.name_responsible }} </span>
+                        <div class="text-end">
+                          <p>{{ responsible.adress_responsible }}  </p>
+                          <p class="small">{{ responsible.phone_numbrer }}</p>
+                          <span class="p-relative">
+                            <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                              <div class="sr-only">More info</div>
+                              <i data-feather="more-horizontal" aria-hidden="true"></i>
+                            </button>
+                            <ul class="users-item-dropdown dropdown">
+                              <li><a href="/responsibles/{{ responsible.pk}}">detail</a></li>
+                              <li><a href="##">Quick edit</a></li>
+                              <li><a href="##">Trash</a></li>
+                            </ul>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% endif %}
+
+            </div>
+            
+        </div>
+    </main>
+{% endblock %}
