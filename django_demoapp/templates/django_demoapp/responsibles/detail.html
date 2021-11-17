@@ -1,0 +1,76 @@
+{% extends 'django_demoapp/layout/default.html' %}
+{% block content %}
+
+    <main class="main users chart-page" id="skip-target">
+        <div class="container">
+            <h2 class="main-title">Responsible {% if responsible %} {{ responsible.name_responsible }} {% endif %} </h2>
+            <div class="text-end">
+                <!-- Button trigger modal -->
+              <!-- <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add new responsible
+              </button> -->
+
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Responsible</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      ...
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save responsible</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              {% if responsible %}
+              {% load static %}
+                  <div class="col-md-3">
+                    <div class="card mb-4 shadow">
+                      <div class="card-body">
+                        <div class="categories-table-img">
+                          <picture>
+                            <source srcset="{% static 'app/img/categories/01.webp' %}" type="image/webp"><img src="{% static 'app/img/categories/01.jpg' %}" alt="category">
+                          </picture>
+                        </div>
+                        <span class="font-weight-bolder h5">{{ responsible.name_responsible }} </span>
+                        <div class="text-end">
+                          <p>{{ responsible.adress_responsible }}  </p>
+                          <p class="small">{{ responsible.phone_numbrer }}</p>
+                          <span class="p-relative">
+                            <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                              <div class="sr-only">More info</div>
+                              <i data-feather="more-horizontal" aria-hidden="true"></i>
+                            </button>
+                            <ul class="users-item-dropdown dropdown">
+                              <li><a href="##">Edit</a></li>
+                              <li><a href="##">Quick edit</a></li>
+                              <li><a href="##">Trash</a></li>
+                            </ul>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              {% endif %}
+
+              <form action="/responsibles/{{ responsible.pk }}" method="POST">
+                {% csrf_token %}
+                  <legend><h5>{{ responsible.name_responsible }} </h5></legend>
+                  {% if error_message %} <p> {{ error_message}} </p> {% endif %}
+                <input type="submit" value="responsible">
+              </form>
+
+            </div>
+            
+        </div>
+    </main>
+{% endblock %}
