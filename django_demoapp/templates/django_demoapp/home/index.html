@@ -96,12 +96,12 @@
                 </tr>
               </thead>
               <tbody>
+                {% load static %}
                 <tr>
                   <td>
                     <label class="users-table__checkbox">
                       <input type="checkbox" class="check">
                       <div class="categories-table-img">
-                        {% load static %}
                         <picture><source srcset="{% static 'app/img/categories/01.webp' %}" type="image/webp"><img src="{% static 'app/img/categories/01.jpg' %}" alt="category"></picture>
                       </div>
                     </label>
