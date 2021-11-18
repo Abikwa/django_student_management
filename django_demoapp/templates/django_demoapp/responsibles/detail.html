@@ -1,75 +1,81 @@
 {% extends 'django_demoapp/layout/default.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
 
     <main class="main users chart-page" id="skip-target">
         <div class="container">
-            <h2 class="main-title">Responsible {% if responsible %} {{ responsible.name_responsible }} {% endif %} </h2>
-            <div class="text-end">
-                <!-- Button trigger modal -->
-              <!-- <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Add new responsible
-              </button> -->
-
-              <!-- Modal -->
-              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Responsible</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      ...
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save responsible</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <h2 class="main-title">{% if responsible %} {{ responsible.name_responsible }} {% endif %} 
+              <!-- Button trigger modal -->
+          <button type="button" class="btn btn-link btn-sm" data-bs-toggle="modal" data-bs-target="#modelId">
+            Update 
+          </button>
+            </h2>
 
             <div class="row">
-              {% if responsible %}
+              <div class="h5 main-title">List courses</div>
+              {% if courses %}
               {% load static %}
+                {% for course in courses %}
                   <div class="col-md-3">
                     <div class="card mb-4 shadow">
                       <div class="card-body">
-                        <div class="categories-table-img">
-                          <picture>
-                            <source srcset="{% static 'app/img/categories/01.webp' %}" type="image/webp"><img src="{% static 'app/img/categories/01.jpg' %}" alt="category">
-                          </picture>
+                        <div class="h5 text-success">
+                          {{ course.name_course}}
                         </div>
-                        <span class="font-weight-bolder h5">{{ responsible.name_responsible }} </span>
-                        <div class="text-end">
-                          <p>{{ responsible.adress_responsible }}  </p>
-                          <p class="small">{{ responsible.phone_numbrer }}</p>
+                        <div class="text-center">
+                          <span class="font-weight-bolder h6">{{ course.numbrer_hour}}h <span class="badge-active"> {% if course.status == 1 %} Active {% else %} desactive {% endif %} </span> </span>
+                          <p class="small mt-2">
+                            {{ course.date_start|date:"M d, Y"}} <span class="text-success">to</span>
+                            {{ course.date_end|date:"M d, Y"}}
+                          </p>
+                        </div>
+
+                        <div class="text-end mt-2">
                           <span class="p-relative">
-                            <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                              <div class="sr-only">More info</div>
-                              <i data-feather="more-horizontal" aria-hidden="true"></i>
-                            </button>
-                            <ul class="users-item-dropdown dropdown">
-                              <li><a href="##">Edit</a></li>
-                              <li><a href="##">Quick edit</a></li>
-                              <li><a href="##">Trash</a></li>
+                            <ul class="">
+                              <li>
+                                <form action="/courses/{{ course.pk }}/" method="POST">
+                                  {% csrf_token %}
+                                  <!-- <button type="button" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i> edit</button> -->
+                                  <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> delete</button>
+                                  </form>
+                              </li>
                             </ul>
                           </span>
                         </div>
                       </div>
                     </div>
                   </div>
+                {% endfor %}
               {% endif %}
+          </div>
+          
+          <!-- Modal -->
+          <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Update</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  
+                  <form action="/responsibles/{{ responsible.pk }}/" method="POST">
+                    <div  class="">
+                      <div class="">
+                        {% csrf_token %}
+                        {{ form|crispy}}
+                        </div>
+                    </div>
+                    <div class="text-end">
+                      <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                    </div>
+                  </form>
 
-              <form action="/responsibles/{{ responsible.pk }}" method="POST">
-                {% csrf_token %}
-                  <legend><h5>{{ responsible.name_responsible }} </h5></legend>
-                  {% if error_message %} <p> {{ error_message}} </p> {% endif %}
-                <input type="submit" value="responsible">
-              </form>
-
+                </div>
+              </div>
             </div>
+          </div>
             
         </div>
     </main>
