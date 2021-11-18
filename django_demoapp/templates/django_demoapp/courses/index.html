@@ -71,13 +71,13 @@
                           <td>
                             <div class="pages-table-img">
                               <picture><source srcset="{% static 'app/img/avatar/avatar-face-02.webp' %}" type="image/webp"><img src="{% static 'app/img/avatar/avatar-face-02.png' %}" alt="User Name"></picture>
-                              {{ course.responsible.name_responsible}}
+                              <a href="/responsibles/{{ course.responsible.pk }}" class=""> {{ course.responsible.name_responsible}}</a>
                             </div>
                           </td>
                           <td>{{ course.numbrer_hour}}h</td>
                           <td><span class="badge-active">{% if course.status == 1 %} Active {% else %} desactive {% endif %}</span></td>
-                          <td>{{ course.date_start}}</td>
-                          <td>{{ course.date_end}}</td>
+                          <td>{{ course.date_start|date:"M d, Y"}}</td>
+                          <td>{{ course.date_end|date:"M d, Y"}}</td>
                           <td>
                             <span class="p-relative">
                               <button class="dropdown-btn transparent-btn" type="button" title="More info">
@@ -90,7 +90,7 @@
                                 <li>
                                   <form action="/courses/{{ course.pk }}/" method="POST">
                                     {% csrf_token %}
-                                    <button type="button" class="w-100 btn btn-sm btn-primary"><i class="fas fa-pen"></i> edit</button>
+                                    <!-- <button type="button" class="w-100 btn btn-sm btn-primary"><i class="fas fa-pen"></i> edit</button> -->
                                     <button type="submit" class="w-100 btn btn-sm btn-danger"><i class="fas fa-trash"></i> delete</button>
                                   </form>
                               </ul>

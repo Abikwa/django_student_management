@@ -57,9 +57,13 @@
                               <i data-feather="more-horizontal" aria-hidden="true"></i>
                             </button>
                             <ul class="users-item-dropdown dropdown">
-                              <li><a href="/responsibles/{{ responsible.pk}}">detail</a></li>
-                              <li><a href="##">Quick edit</a></li>
-                              <li><a href="##">Trash</a></li>
+                              <li><a href="/responsibles/{{ responsible.pk}}" class="btn btn-primary btn-sm w-100 text-white">detail</a></li>
+                              <li>
+                                <form action="/responsibles/{{ responsible.pk }}/delete/" method="POST">
+                                  {% csrf_token %}
+                                  <button type="submit" class="w-100 btn btn-sm btn-danger"><i class="fas fa-trash"></i> delete</button>
+                                </form>
+                              </li>
                             </ul>
                           </span>
                         </div>
