@@ -1,9 +1,10 @@
 {% extends 'django_demoapp/layout/default.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
 
     <main class="main users chart-page" id="skip-target">
         <div class="container">
-            <h2 class="main-title">Courses list</h2>
+            <h2 class="main-title">Courses list {{ course_id }} </h2>
             <div class="text-end">
                 <!-- Button trigger modal -->
               <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -15,19 +16,26 @@
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Course</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      ...
+                      <form method="POST" class="text-start bg-secondary-50">
+                        {% csrf_token %}
+                        {{ form|crispy}}
+                        <div class="text-end">
+                          <button class="btn btn-primary btn-sm">Save course</button>
+                        </div>
+                      </form>
                     </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
+                    <!-- <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary btn-sm">Save responsible</button>
+                    </div> -->
                   </div>
                 </div>
               </div>
+
             </div>
 
             <div class="users-table table-wrapper">
@@ -49,39 +57,48 @@
                   </thead>
                   <tbody>
                     {% load static %}
-                    <tr>
-                      <td>
-                        <label class="users-table__checkbox">
-                          <input type="checkbox" class="check">
-                          <div class="categories-table-img">
-                            Mathematic
-                          </div>
-                        </label>
-                      </td>
-                      <td>
-                        <div class="pages-table-img">
-                          <picture><source srcset="{% static 'app/img/avatar/avatar-face-02.webp' %}" type="image/webp"><img src="{% static 'app/img/avatar/avatar-face-02.png' %}" alt="User Name"></picture>
-                          Kathryn Murphy
-                        </div>
-                      </td>
-                      <td>45h</td>
-                      <td><span class="badge-active">Active</span></td>
-                      <td>17.04.2021</td>
-                      <td>17.04.2021</td>
-                      <td>
-                        <span class="p-relative">
-                          <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                            <div class="sr-only">More info</div>
-                            <i data-feather="more-horizontal" aria-hidden="true"></i>
-                          </button>
-                          <ul class="users-item-dropdown dropdown">
-                            <li><a href="##">Edit</a></li>
-                            <li><a href="##">Quick edit</a></li>
-                            <li><a href="##">Trash</a></li>
-                          </ul>
-                        </span>
-                      </td>
-                    </tr>
+                    {% if courses %}
+                      {% for course in courses %}
+                        <tr>
+                          <td>
+                            <label class="users-table__checkbox">
+                              <input type="checkbox" class="check">
+                              <div class="categories-table-img">
+                                {{ course.name_course}}
+                              </div>
+                            </label>
+                          </td>
+                          <td>
+                            <div class="pages-table-img">
+                              <picture><source srcset="{% static 'app/img/avatar/avatar-face-02.webp' %}" type="image/webp"><img src="{% static 'app/img/avatar/avatar-face-02.png' %}" alt="User Name"></picture>
+                              {{ course.responsible.name_responsible}}
+                            </div>
+                          </td>
+                          <td>{{ course.numbrer_hour}}h</td>
+                          <td><span class="badge-active">{% if course.status == 1 %} Active {% else %} desactive {% endif %}</span></td>
+                          <td>{{ course.date_start}}</td>
+                          <td>{{ course.date_end}}</td>
+                          <td>
+                            <span class="p-relative">
+                              <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                                <div class="sr-only">More info</div>
+                                <i data-feather="more-horizontal" aria-hidden="true"></i>
+                              </button>
+                              <ul class="users-item-dropdown dropdown">
+                                <!-- <li><a href="##">Edit</a></li>
+                                <li><a href="##">Quick edit</a></li> -->
+                                <li>
+                                  <form action="/courses/{{ course.pk }}/" method="POST">
+                                    {% csrf_token %}
+                                    <button type="button" class="w-100 btn btn-sm btn-primary"><i class="fas fa-pen"></i> edit</button>
+                                    <button type="submit" class="w-100 btn btn-sm btn-danger"><i class="fas fa-trash"></i> delete</button>
+                                  </form>
+                              </ul>
+                            </span>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    {% endif %}
                   </tbody>
                 </table>
             </div>
