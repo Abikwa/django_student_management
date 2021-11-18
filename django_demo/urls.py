@@ -23,7 +23,9 @@ import django_demoapp.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', django_demoapp.views.home, name="home"),
-    path('responsibles', django_demoapp.views.responsibles, name="responsibles"),
+    path('responsibles/', django_demoapp.views.responsibles, name="responsibles"),
     path('responsibles/<int:responsible_id>/', django_demoapp.views.detail, name="detail"),
-    path('courses', django_demoapp.views.courses, name="courses"),
+    
+    path('courses/<int:course_id>/', django_demoapp.views.coursedelete, name="coursedelete"),
+    path('courses/', django_demoapp.views.courses, name="courses"),
 ]

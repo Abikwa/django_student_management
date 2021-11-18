@@ -1,7 +1,7 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 
-from .models import Responsible
-from .forms import ResponsibleForm
+from .models import Course, Responsible
+from .forms import CourseForm, ResponsibleForm
 
 # Create your views here.
 
@@ -14,7 +14,6 @@ def responsibles(request):
         form = ResponsibleForm(request.POST)
         if form.is_valid() :
             form.save()
-        else :
             form = ResponsibleForm()
 
     responsibles = Responsible.objects.all()
@@ -33,4 +32,16 @@ def detail(request, responsible_id):
 
 
 def courses(request):
-    return render(request, 'django_demoapp/courses/index.html')
+    form = CourseForm()
+    if request.method == "POST" :
+        form = CourseForm(request.POST)
+        if form.is_valid() :
+            form.save()
+            form = CourseForm()
+    courses = Course.objects.all()
+    return render(request, 'django_demoapp/courses/index.html', { 'form' : form, 'courses' : courses})
+
+def coursedelete(request, course_id) :
+    if course_id > 0 and request.method == "POST" :
+        get_object_or_404(Course, pk=course_id).delete()
+        return redirect('courses')
