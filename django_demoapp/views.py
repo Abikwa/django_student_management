@@ -23,10 +23,24 @@ def responsibles(request):
     }
     return render(request, 'django_demoapp/responsibles/index.html', context)
 
+
+def responsibledelete(request, responsible_id) :
+    if responsible_id > 0 and request.method == "POST" :
+        get_object_or_404(Responsible, pk=responsible_id).delete()
+        return redirect('responsibles')
+
 def detail(request, responsible_id):
     responsible = get_object_or_404(Responsible, pk = responsible_id)
+    form = ResponsibleForm(instance=responsible)
+    if request.method == 'POST' :
+        form = ResponsibleForm(request.POST, instance=responsible)
+        if form.is_valid() :
+            form.save()
+            return redirect('responsibles')
     context = {
-        'responsible' : responsible
+        'form' : form,
+        'responsible' : responsible,
+        'courses' : responsible.course_set.all()
     }
     return render(request, 'django_demoapp/responsibles/detail.html', context)
 
