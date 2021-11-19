@@ -8,6 +8,9 @@ from .forms import CourseForm, ResponsibleForm
 def home(request):
     return render(request, 'django_demoapp/home/index.html')
 
+# def page_not_found_view(request, exception):
+#     return render(request, 'django_demoapp/404.html', status=404)
+
 def responsibles(request):
     form = ResponsibleForm()
     if request.method == 'POST' :
@@ -59,3 +62,6 @@ def coursedelete(request, course_id) :
     if course_id > 0 and request.method == "POST" :
         get_object_or_404(Course, pk=course_id).delete()
         return redirect('courses')
+
+def error_404_view(request, exception):
+    return render(request,'django_demoapp/404.html', { 'exception' : exception})
