@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from django.conf.urls import url
+from django.conf.urls import url, handler404
 
 import django_demoapp.views
 
@@ -30,3 +30,4 @@ urlpatterns = [
     path('courses/<int:course_id>/', django_demoapp.views.coursedelete, name="coursedelete"),
     path('courses/', django_demoapp.views.courses, name="courses"),
 ]
+handler404 = 'django_demoapp.views.error_404_view'
